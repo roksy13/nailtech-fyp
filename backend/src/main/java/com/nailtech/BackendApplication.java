@@ -1,5 +1,9 @@
 package com.nailtech;
 
+/**
+ * Starts the NailHQ backend and enables Spring Boot configuration and component discovery
+ */
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

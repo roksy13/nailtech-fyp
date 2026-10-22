@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@import "tailwindcss";
+
+.auth-page {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
+    background: #faf3f1;
+    color: #342626;
+}
+
+@media (max-width: 700px) {
+    .auth-page {
+        padding: 20px 12px;
+    }
+}

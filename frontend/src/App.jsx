@@ -1,51 +1,55 @@
-import { useState } from 'react'
+import { Navigate, Route, Routes } from "react-router";
+import { useAuth } from "./features/auth/useAuth";
+import SessionGate from "./features/auth/SessionGate";
+import RoleRoute from "./app/routes/RoleRoute";
+import AuthenticatedLayout from "./app/layouts/AuthenticatedLayout";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import DashboardPage from "./pages/DashboardPage";
 
-function App() {
-    const [message, setMessage] = useState('')
-    const [loading, setLoading] = useState(false)
+export default function App() {
+    const { user, profile } = useAuth();
 
-    async function checkBackend() {
-        setLoading(true)
-        setMessage('')
-
-        try {
-            const response = await fetch('/api/health')
-
-            if (!response.ok) {
-                throw new Error('Request failed')
-            }
-
-            setMessage(await response.text())
-        } catch {
-            setMessage('Could not connect. Check that your backend is running.')
-        } finally {
-            setLoading(false)
-        }
-    }
+    const destination =
+        profile?.role === "OWNER" ? "/dashboard" : "/home";
 
     return (
-        <main className="min-h-screen bg-rose-50 p-10">
-            <h1 className="text-5xl font-bold text-rose-700">
-                NailTech
-            </h1>
+        <SessionGate>
+            <Routes>
+                <Route
+                    path="/login"
+                    element={
+                        user
+                            ? <Navigate to={destination} replace />
+                            : <LoginPage />
+                    }
+                />
 
-            <p className="mt-4 text-lg text-gray-700">
-                Discover your next nail design.
-            </p>
+                <Route element={<RoleRoute role="CLIENT" />}>
+                    <Route element={<AuthenticatedLayout />}>
+                        <Route path="/home" element={<HomePage />} />
+                    </Route>
+                </Route>
 
-            <button
-                onClick={checkBackend}
-                disabled={loading}
-                className="mt-6 rounded-lg bg-rose-700 px-5 py-3 text-white disabled:opacity-50"
-            >
-                {loading ? 'Connecting...' : 'Check backend'}
-            </button>
+                <Route element={<RoleRoute role="OWNER" />}>
+                    <Route element={<AuthenticatedLayout />}>
+                        <Route
+                            path="/dashboard"
+                            element={<DashboardPage />}
+                        />
+                    </Route>
+                </Route>
 
-            <p className="mt-4 text-gray-700" role="status">
-                {message}
-            </p>
-        </main>
-    )
+                <Route
+                    path="*"
+                    element={
+                        <Navigate
+                            to={user ? destination : "/login"}
+                            replace
+                        />
+                    }
+                />
+            </Routes>
+        </SessionGate>
+    );
 }
-
-export default App
