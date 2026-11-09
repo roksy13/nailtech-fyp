@@ -82,7 +82,7 @@ flowchart TD
 3. Spring Boot checks identity, input and availability.
 4. Spring Boot reserves the required time slots and creates the
    booking atomically in Firestore.
-5. React displays the confirmed booking.
+5. React displays the pending booking request; the slot remains reserved until approval, rejection, or cancellation.
 
 ### Browsing and saving designs
 
