@@ -102,64 +102,70 @@ export default function LoginForm() {
             setLoading(false);
         }
     }
+    
+    function renderForm(registering) {
+        const active = isRegistering === registering;
+        const mode = registering ? "register" : "login";
 
-    return (
-        <section
-            className={`auth-card ${isRegistering ? "auth-card--register" : ""}`}
-            aria-label="Account access"
-        >
-            <div className="auth-form-panel">
-                <form
-                    className="auth-form"
-                    onSubmit={handleSubmit}
-                    aria-busy={loading}
-                >
-                    <span className="auth-eyebrow">NailHQ</span>
+        return (
+            <form
+                className={`nail-auth__form nail-auth__form--${mode} ${
+                    active ? "is-active" : ""
+                }`}
+                onSubmit={handleSubmit}
+                aria-hidden={!active}
+                inert={!active}
+                aria-busy={loading}
+            >
+                <fieldset disabled={loading || !active}>
+                    <span className="nail-auth__eyebrow">NailHQ</span>
 
-                    <h1>{isRegistering ? "Join the nail club." : "Welcome back."}</h1>
+                    <h1 className="nail-auth__title">
+                        {registering ? "Join the nail club." : "Welcome back."}
+                    </h1>
 
-                    <p className="auth-description">
-                        {isRegistering
+                    <p className="nail-auth__description">
+                        {registering
                             ? "Create your account and find your next favourite set."
                             : "Your next beautiful set starts here."}
                     </p>
 
-                    <label htmlFor="auth-email">Email address</label>
+                    <label htmlFor={`${mode}-email`}>Email address</label>
                     <input
-                        id="auth-email"
+                        id={`${mode}-email`}
                         type="email"
                         autoComplete="email"
                         placeholder="you@example.com"
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
-                        disabled={loading}
                         required
                     />
 
-                    <label htmlFor="auth-password">Password</label>
+                    <label htmlFor={`${mode}-password`}>Password</label>
                     <input
-                        id="auth-password"
+                        id={`${mode}-password`}
                         type="password"
                         autoComplete={
-                            isRegistering ? "new-password" : "current-password"
+                            registering ? "new-password" : "current-password"
                         }
                         placeholder={
-                            isRegistering ? "Create a password" : "Enter your password"
+                            registering
+                                ? "Create a password"
+                                : "Enter your password"
                         }
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        minLength={isRegistering ? 6 : undefined}
-                        disabled={loading}
+                        minLength={registering ? 6 : undefined}
                         required
                     />
 
-                    {isRegistering && (
+                    {registering && (
                         <>
-                            <label htmlFor="auth-confirm-password">
+                            <label htmlFor="register-confirm-password">
                                 Confirm password
                             </label>
                             <input
-                                id="auth-confirm-password"
+                                id="register-confirm-password"
                                 type="password"
                                 autoComplete="new-password"
                                 placeholder="Repeat your password"
@@ -167,86 +173,111 @@ export default function LoginForm() {
                                 onChange={(event) =>
                                     setConfirmPassword(event.target.value)
                                 }
-                                disabled={loading}
                                 required
                             />
                         </>
                     )}
 
-                    {!isRegistering && (
+                    {!registering && (
                         <button
-                            className="auth-forgot"
                             type="button"
+                            className="nail-auth__forgot"
                             onClick={handleResetPassword}
-                            disabled={loading}
                         >
                             Forgot password?
                         </button>
                     )}
 
-                    {error && (
-                        <p className="auth-feedback auth-feedback--error" role="alert">
+                    {active && error && (
+                        <p className="nail-auth__error" role="alert">
                             {error}
                         </p>
                     )}
 
-                    {message && (
-                        <p className="auth-feedback" role="status">
+                    {active && message && (
+                        <p className="nail-auth__message" role="status">
                             {message}
                         </p>
                     )}
 
-                    <button
-                        className="auth-primary"
-                        type="submit"
-                        disabled={loading}
-                    >
+                    <button type="submit" className="nail-auth__submit">
                         {loading
                             ? "Please wait..."
-                            : isRegistering
+                            : registering
                                 ? "Create account"
                                 : "Sign in"}
                     </button>
 
-                    <div className="auth-divider">
+                    <div className="nail-auth__divider">
                         <span>or</span>
                     </div>
 
                     <button
-                        className="auth-google"
                         type="button"
+                        className="nail-auth__google"
                         onClick={handleGoogleLogin}
-                        disabled={loading}
                     >
                         Continue with Google
                     </button>
-                </form>
-            </div>
+                </fieldset>
+            </form>
+        );
+    }
 
-            <aside className="auth-story-panel">
-                <div className="auth-story-content">
-                    <span className="auth-eyebrow">A LITTLE SELF-CARE</span>
+    function renderHero(registering) {
+        const active = isRegistering === registering;
+        const mode = registering ? "register" : "login";
 
-                    <h2>
-                        {isRegistering ? "Already one of us?" : "New here?"}
-                    </h2>
+        return (
+            <aside
+                className={`nail-auth__hero nail-auth__hero--${mode} ${
+                    active ? "is-active" : ""
+                }`}
+                aria-hidden={!active}
+                inert={!active}
+            >
+                <div>
+                <span className="nail-auth__eyebrow">
+                    A little self-care
+                </span>
+
+                    <h2>{registering ? "One of us?" : "New here?"}</h2>
 
                     <p>
-                        {isRegistering
+                        {registering
                             ? "Sign in to manage your appointments and revisit your favourite designs."
                             : "Find your inspiration, save your favourites and make time for yourself."}
                     </p>
 
                     <button
-                        className="auth-switch"
                         type="button"
+                        className="nail-auth__switch"
                         onClick={toggleMode}
-                        disabled={loading}
+                        disabled={loading || !active}
                     >
-                        {isRegistering ? "Sign in" : "Sign up"}
+                        {registering ? "Sign in" : "Sign up"}
                     </button>
                 </div>
             </aside>
+        );
+    }
+    return (
+        <section
+            className={`nail-auth ${
+                isRegistering ? "nail-auth--register" : ""
+            }`}
+            aria-label="NailHQ account access"
+        >
+            <div
+                className="nail-auth__background"
+                aria-hidden="true"
+            />
+
+            {renderForm(false)}
+            {renderForm(true)}
+
+            {renderHero(false)}
+            {renderHero(true)}
         </section>
     );
 }

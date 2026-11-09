@@ -1,0 +1,179 @@
+.public-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding: 16px;
+}
+
+.public-navbar {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    max-width: 1152px;
+    min-height: 76px;
+    margin: 0 auto;
+    padding: 12px 24px;
+    border: 1px solid rgb(118 45 67 / 10%);
+    border-radius: 40px;
+    background: rgb(255 255 255 / 90%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow:
+            0 8px 32px rgb(76 27 43 / 6%),
+            inset 0 1px 0 rgb(255 255 255 / 90%);
+}
+
+.public-navbar__logo {
+    flex-shrink: 0;
+    color: #762d43;
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.public-navbar__panel {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+}
+
+.public-navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-left: 22px;
+    border-left: 1px solid rgb(118 45 67 / 18%);
+}
+
+.public-navbar__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    border-radius: 24px;
+    color: #65545b;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+            background-color 180ms ease,
+            color 180ms ease;
+}
+
+.public-navbar__link:hover,
+.public-navbar__link--active {
+    background: #f4e5ea;
+    color: #762d43;
+}
+
+.public-navbar__account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.public-navbar__signin,
+.public-navbar__dashboard {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 22px;
+    border: 1px solid #762d43;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.public-navbar__signin {
+    background: #762d43;
+    color: #fff;
+}
+
+.public-navbar__signin:hover {
+    background: #582033;
+}
+
+.public-navbar__dashboard {
+    background: transparent;
+    color: #762d43;
+}
+
+.public-navbar__dashboard:hover {
+    background: #f4e5ea;
+}
+
+.public-navbar__toggle {
+    display: none;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid #ddc6ce;
+    border-radius: 24px;
+    background: transparent;
+    color: #762d43;
+    cursor: pointer;
+}
+
+.public-navbar a:focus-visible,
+.public-navbar button:focus-visible {
+    outline: 2px solid #762d43;
+    outline-offset: 4px;
+}
+
+@media (max-width: 1023px) {
+    .public-header {
+        padding: 12px;
+    }
+
+    .public-navbar {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px 20px;
+        border-radius: 28px;
+    }
+
+    .public-navbar__toggle {
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto;
+    }
+
+    .public-navbar__panel {
+        display: none;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        padding-top: 12px;
+        border-top: 1px solid rgb(118 45 67 / 12%);
+    }
+
+    .public-navbar__panel--open {
+        display: flex;
+    }
+
+    .public-navbar__links {
+        flex-direction: column;
+        align-items: stretch;
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .public-navbar__account {
+        flex-wrap: wrap;
+        margin-left: 0;
+        padding: 4px 0 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-navbar__link {
+        transition: none;
+    }
+}

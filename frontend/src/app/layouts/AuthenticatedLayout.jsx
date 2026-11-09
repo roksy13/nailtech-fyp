@@ -1,20 +1,23 @@
 import { Outlet } from "react-router";
-import LogoutButton from "../../features/auth/LogoutButton";
+import PublicNavbar from "../../components/PublicNavbar";
 
+/**
+ * Displays protected pages using the shared NailHQ navigation.
+ */
 export default function AuthenticatedLayout() {
     return (
-        <div className="min-h-screen bg-rose-50">
-            <header className="flex flex-wrap items-center justify-between gap-4 bg-white px-6 py-4">
-                <span className="text-xl font-bold text-rose-800">
-                    NailHQ
-                </span>
+        <div className="flex min-h-screen flex-col bg-rose-50">
+            <PublicNavbar />
 
-                <LogoutButton />
-            </header>
-
-            <main className="p-6 md:p-12">
+            <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-10">
                 <Outlet />
             </main>
+
+            <footer className="border-t border-rose-100 bg-white px-5 py-6">
+                <p className="mx-auto max-w-6xl text-sm text-gray-500">
+                    © {new Date().getFullYear()} NailHQ
+                </p>
+            </footer>
         </div>
     );
 }

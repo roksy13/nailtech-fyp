@@ -1,55 +1,46 @@
 import { Navigate, Route, Routes } from "react-router";
-import { useAuth } from "./features/auth/useAuth";
-import SessionGate from "./features/auth/SessionGate";
-import RoleRoute from "./app/routes/RoleRoute";
+import PublicLayout from "./app/layouts/PublicLayout";
 import AuthenticatedLayout from "./app/layouts/AuthenticatedLayout";
-import LoginPage from "./pages/LoginPage";
+import RoleRoute from "./app/routes/RoleRoute";
+import SessionGate from "./features/auth/SessionGate";
 import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ArtistPage from "./pages/ArtistPage";
+import BookingPage from "./pages/BookingPage";
+import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 
 export default function App() {
-    const { user, profile } = useAuth();
-
-    const destination =
-        profile?.role === "OWNER" ? "/dashboard" : "/home";
-
     return (
-        <SessionGate>
-            <Routes>
+        <Routes>
+            <Route element={<PublicLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/artist" element={<ArtistPage />} />
+                <Route path="/book" element={<BookingPage />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route
-                    path="/login"
-                    element={
-                        user
-                            ? <Navigate to={destination} replace />
-                            : <LoginPage />
-                    }
+                    path="/home"
+                    element={<Navigate to="/" replace />}
                 />
+            </Route>
 
-                <Route element={<RoleRoute role="CLIENT" />}>
-                    <Route element={<AuthenticatedLayout />}>
-                        <Route path="/home" element={<HomePage />} />
-                    </Route>
+            <Route
+                element={
+                    <SessionGate>
+                        <RoleRoute role="OWNER" />
+                    </SessionGate>
+                }
+            >
+                <Route element={<AuthenticatedLayout />}>
+                    <Route
+                        path="/dashboard"
+                        element={<DashboardPage />}
+                    />
                 </Route>
+            </Route>
 
-                <Route element={<RoleRoute role="OWNER" />}>
-                    <Route element={<AuthenticatedLayout />}>
-                        <Route
-                            path="/dashboard"
-                            element={<DashboardPage />}
-                        />
-                    </Route>
-                </Route>
-
-                <Route
-                    path="*"
-                    element={
-                        <Navigate
-                            to={user ? destination : "/login"}
-                            replace
-                        />
-                    }
-                />
-            </Routes>
-        </SessionGate>
+            <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
     );
 }
