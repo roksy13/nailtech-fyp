@@ -1,0 +1,66 @@
+.smooth-input {
+    position: relative;
+    width: 100%;
+    color: #762d43;
+}
+
+.smooth-input__field {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 1px solid #ddc6ce;
+    border-radius: 14px;
+    background: #fff;
+    color: #342626;
+    font: inherit;
+}
+
+.smooth-input__field::placeholder {
+    color: #96838a;
+}
+
+.smooth-input__field:focus-visible {
+    outline: 2px solid #92364e;
+    outline-offset: 3px;
+}
+
+.smooth-input__field[data-smooth="true"] {
+    caret-color: transparent;
+}
+
+.smooth-input__field[data-composing="true"] {
+    caret-color: auto;
+}
+
+.smooth-input__measure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    white-space: pre;
+    pointer-events: none;
+}
+
+.smooth-input__caret {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 2px;
+    height: 1em;
+    margin-top: -0.5em;
+    border-radius: 1px;
+    background: currentColor;
+    pointer-events: none;
+}
+
+@media (forced-colors: active) {
+    .smooth-input__field[data-smooth="true"] {
+        caret-color: auto;
+    }
+
+    .smooth-input__caret {
+        display: none;
+    }
+}

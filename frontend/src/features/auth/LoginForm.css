@@ -116,7 +116,7 @@ main.auth-page.auth-page--login {
 
 .nail-auth__title {
     margin: 14px 0 10px;
-    font-family: var(--font-heading, Georgia, serif);
+    font-family: var(--font-heading, "Cormorant Garamond"), Georgia, serif;
     font-size: clamp(30px, 3vw, 38px);
     font-weight: 400;
     line-height: 1.15;
@@ -282,7 +282,7 @@ main.auth-page.auth-page--login {
 
 .nail-auth__hero h2 {
     margin: 22px 0 16px;
-    font-family: var(--font-heading, Georgia, serif);
+    font-family: var(--font-heading, "Cormorant Garamond"), Georgia, serif;
     font-size: 40px;
     font-weight: 400;
     line-height: 1.2;
@@ -365,4 +365,20 @@ main.auth-page.auth-page--login {
     .nail-auth .is-active {
         transition: none;
     }
+}
+
+.nail-auth__form .smooth-input__field {
+    min-height: 0;
+    height: 42px;
+    padding: 8px 0;
+    border: 0;
+    border-bottom: 1px solid #d9cbca;
+    border-radius: 0;
+    background: transparent;
+}
+
+.nail-auth__form .smooth-input__field:focus-visible {
+    outline: none;
+    border-bottom-color: #92364e;
+    box-shadow: 0 1px 0 #92364e;
 }

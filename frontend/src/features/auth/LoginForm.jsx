@@ -6,6 +6,7 @@ import {
     resetPassword,
 } from "./authService";
 import "./LoginForm.css";
+import SmoothInput from "../../components/SmoothInput";
 
 export default function LoginForm() {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -28,6 +29,17 @@ export default function LoginForm() {
         event.preventDefault();
         setError("");
         setMessage("");
+
+        // Use the browser's email-format validation before contacting Firebase.
+        const emailCheck = document.createElement("input");
+        emailCheck.type = "email";
+        emailCheck.required = true;
+        emailCheck.value = email.trim();
+
+        if (!emailCheck.checkValidity()) {
+            setError("Please enter a valid email address.");
+            return;
+        }
 
         if (isRegistering && password !== confirmPassword) {
             setError("Your passwords do not match.");
@@ -131,10 +143,13 @@ export default function LoginForm() {
                     </p>
 
                     <label htmlFor={`${mode}-email`}>Email address</label>
-                    <input
+                    <SmoothInput
                         id={`${mode}-email`}
-                        type="email"
+                        name="email"
+                        inputMode="email"
                         autoComplete="email"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         placeholder="you@example.com"
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
